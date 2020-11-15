@@ -1,0 +1,97 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static "dashboard/css/datatables.min.css" %}">
+{% endblock %}
+
+{% block title %}NTU Stores - Orders{% endblock %}
+
+{% block main %}
+
+<!-- Dashboard / Button Toolbar -->
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 pb-2 border-bottom" id="Dashboard-bar">
+    <h3>Orders</h3>
+
+    <div class="btn-toolbar mb-2 mb-md-0">
+        {% if perms.dashboard.add_product %}
+        <a class="btn" href="{% url 'dashboard:add_order' %}">
+            <i class="fas fa-plus-circle mr-2"></i>
+            Add Order
+        </a>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Table -->
+<div class="table-container mb-2">
+    <table class="datatable table table-hover" cellspacing="0" width="100%">
+        <thead class="table-head">
+            <tr>
+                <th>ID</th>
+                <th>Supplier Name</th>
+                <th>Supplier Site Name</th>
+                <th>Supplier Remit To Address</th>
+                <th>Promised Date</th>
+                <th>Goods and Services Total</th>
+                <th>VAT</th>
+                <th>Invoice Total</th>
+                <th>Created</th>
+                <th>Modified</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody class="table-body">
+            {% if order_list %}
+                {% for order in order_list %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.supplier_name }}</td>
+                    <td>{{ order.supplier_site_name }}</td>
+                    <td>{{ order.supplier_remit_to_address }}</td>
+                    <td>{{ order.promised_date|date:'SHORT_DATETIME_FORMAT' }}</td>
+                    <td>£{{ order.goods_and_services_total }}</td>
+                    <td>{{ order.vat }}%</td>
+                    <td>£{{ order.invoice_total }}</td>
+                    <td>{{ order.created|date:'SHORT_DATETIME_FORMAT' }}</td>
+                    <td>{{ order.modified|date:'SHORT_DATETIME_FORMAT' }}</td>
+                    <td>
+                        <a class="btn" href="{% url 'dashboard:edit_order' order.id %}">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a class="btn" href="{% url 'dashboard:delete_order' order.id %}">
+                            <i class="far fa-trash-alt"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="11" class="text-center">No orders</td>
+                </tr>
+            {% endif %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th class="th search">ID</th>
+                <th class="th search">Supplier Name</th>
+                <th class="th search">Supplier Site Name</th>
+                <th class="th search">Supplier Remit To Address</th>
+                <th class="th search">Promised Date</th>
+                <th class="th search">Goods and Services Total</th>
+                <th class="th search">VAT</th>
+                <th class="th search">Invoice Total</th>
+                <th class="th search">Created</th>
+                <th class="th search">Modified</th>
+                <th class="th text-center">Actions</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script src="{% static "dashboard/js/datatables.min.js" %}"></script>
+<script src="{% static "dashboard/js/table.js" %}"></script>
+{% endblock %}

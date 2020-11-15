@@ -1,0 +1,16 @@
+.item-container{
+    background-color: white;
+    width: 100%;
+    border-radius: 1vh;
+    border: 1px solid #D0D0D0;
+}
+
+.spacing {
+    padding: 1rem;
+}
+
+.dashboard-container{
+    width: 100%;
+    padding: 2vh;
+    padding-top: 0;
+}

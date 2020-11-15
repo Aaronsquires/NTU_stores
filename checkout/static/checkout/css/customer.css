@@ -1,0 +1,185 @@
+*{
+    margin: 0;
+}
+
+/* Header */
+.header{
+    background-color: white;
+    min-height: calc(10vh);
+    width: calc(100vw);
+    padding: 1.5%;
+    color: #051928;
+    font-weight: lighter;
+
+}
+
+/* Main */
+.col-12{
+    background-color: #EFEFEF;
+    width: 100%;
+    margin-left: auto!;
+    padding: 0;
+    min-height: calc(85vh);
+}
+
+#main{
+    padding: 1.5%;
+}
+
+.left-container{
+    background-color: white;
+    width: 100%;
+    border-radius: 1rem;
+    border: 1px solid #D0D0D0;
+    padding: 2vh;
+    min-height: calc(79vh);
+}
+
+/* Right Section */
+/* Order an item */
+.order-item{
+    background-color: white;
+    width: 100%;
+    padding: 2rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 10px 0;
+    border: 2px solid #E6005B;
+}
+
+.order-item-name{
+    order: 1;
+    flex-grow: 2;
+}
+
+.order-item-quantity{
+    order: 2;
+    flex-grow: 1;
+    border: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin: 0;
+}
+.minus, .plus{
+    border-radius: 50%;
+    background-color: #1A4875;
+    color: white;
+    border: none;
+    width: 2rem;
+    height: 2rem;
+}
+.quantity{
+    border: transparent;
+    width: 12%;
+}
+
+.remove-item{
+    order: 3;
+    flex-grow: 1;
+    font-size: 1.5rem;
+    color: #E6005B;
+}
+
+/* Checkout Button */
+
+#checkout-btn{
+    width: 100%;
+    padding: 4%;
+    border-radius: 1rem;
+    border: none;
+    background-color: #E6005B;
+    color: white;
+    font-size: x-large;
+}
+
+.btn{
+    font-size: 1.75rem;
+    color: #E6005B;
+}
+
+/* Footer */
+.dashboard-footer{
+    background-color: #1A4875;
+    min-height: calc(5vh);
+    width: 100%;
+    color: white;
+    padding-left: 25px;
+    padding-top: 17px;
+    font-size: small;
+}
+
+.wizard > .steps
+{
+    display: none;
+}
+
+.wizard .wizard-header
+{
+    display: none;
+}
+
+.login-container{
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+.image-section{
+    padding: 5%;
+    background: white;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+}
+.login-form{
+    padding: 5%;
+    padding-top: 10%;
+    background: white;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+}
+
+.login-form{
+    padding: 5%;
+    padding-top: 10%;
+    background: white;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+}
+
+.login-form h3{
+    text-align: center;
+    color: #051928;
+}
+.line {
+    border-bottom: 1px solid #f8f8f8;
+}
+
+.login-container form{
+    padding: 10%;
+}
+
+.next-btn
+{
+    width: 50%;
+    border-radius: 0.5rem;
+    padding: 1.5%;
+    border: none;
+    cursor: pointer;
+}
+
+.next-btn{
+    font-weight: 600;
+    color: white;
+    background-color: #E6005B;
+    height: 50px;
+    width: 100%;
+}
+
+/* .parent { 
+    position: relative; 
+}
+
+.child { 
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+} */

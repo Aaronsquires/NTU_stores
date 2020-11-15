@@ -1,0 +1,74 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static "dashboard/css/bootstrap.min.css" %}">
+    <!-- Login CSS -->
+    <link rel="stylesheet" href="{% static "dashboard/css/login.css" %}">
+
+    <title>NTU Stores - Login</title>
+</head>
+<body>
+
+    <div class="wrapper">
+        <div class="container login-container">
+            <div class="row">
+                <!-- Left Section -->
+                <div class="col-md-6 image-section">
+                    <div class="image">
+                        <img src="{% static "dashboard/img/LoginImg.png" %}" alt="Nottingham Trent University Login Image">
+                    </div>
+                </div>
+
+                <!-- Right Section -->
+                <div class="col-md-6 login-form">
+                    <h3>NTU Stores System Login</h3>
+                    <div class="line"></div>
+
+                    {% if form.errors %}
+                    <p class="alert alert-danger" role="alert">
+                        Your username and password are incorrect. Please try again.
+                    </p>
+                    {% endif %}
+
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <input type="hidden" name="next" value="{{ next }}">
+
+                        <div class="form-group">
+                            <input type="text" class="form-control"
+                                placeholder="Username"
+                                value="{{ form.username.value|default:"" }}"
+                                name="{{ form.username.name }}">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control"
+                                placeholder="Password"
+                                name="{{ form.password.name }}">
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" class="btnSubmit" value="Login" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>        
+    </div>
+
+
+    <footer class="dashboard-footer">
+        © Nottingham Trent University
+    </footer>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="{% static "dashboard/js/jquery-3.4.1.slim.min.js" %}"></script>
+    <script src="{% static "dashboard/js/popper.min.js" %}"></script>
+    <script src="{% static "dashboard/js/bootstrap.min.js" %}"></script>
+</body>
+</html>

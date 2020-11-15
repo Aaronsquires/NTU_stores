@@ -1,0 +1,100 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static "dashboard/css/datatables.min.css" %}">
+{% endblock %}
+
+{% block title %}NTU Stores - View Transaction{% endblock %}
+
+{% block main %}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 pb-2 border-bottom" id="Dashboard-bar">
+    <h3>View Transaction</h3>
+
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a class="btn" href="{% url 'dashboard:transactions' %}">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Return to Transactions
+        </a>
+    </div>
+</div>
+<div class="table-container mb-2">
+    <p>
+    <table class="table">
+        <tbody>
+            <tr><th scope="row" class="text-right">#</th><td>{{ object.pk }}</td></tr>
+            <tr><th scope="row" class="text-right">Account</th><td>{{ object.account }}</td></tr>
+            <tr><th scope="row" class="text-right">Buyer ID</th><td>{{ object.buyer_id }}</td></tr>
+            <tr><th scope="row" class="text-right">Buyer Name</th><td>{{ object.buyer_name }}</td></tr>
+            <tr><th scope="row" class="text-right">Products Count</th><td>{{ object.get_products_count }}</td></tr>
+            <tr><th scope="row" class="text-right">Total Cost</th><td>£{{ object.get_total_cost|floatformat:"-2" }}</td></tr>
+            <tr><th scope="row" class="text-right">Created</th><td>{{ object.created|date:'SHORT_DATETIME_FORMAT' }}</td></tr>
+            <tr><th scope="row" class="text-right">Modified</th><td>{{ object.modified|date:'SHORT_DATETIME_FORMAT' }}</td></tr>
+        </tbody>
+    </table>
+</p>
+</div>
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 pb-2 border-bottom" id="Dashboard-bar">
+    <h3>Purchases</h3>
+</div>
+
+<div class="table-container mb-2">
+    <table class="datatable table table-hover" cellspacing="0" width="100%">
+        <thead class="table-head">
+            <tr>
+                <th class="th">Code</th>
+                <th class="th">Description</th>
+                <th class="th">Unit Cost</th>
+                <th class="th">Quantity</th>
+                <th class="th">Total Cost</th>
+                <th class="th">Returned</th>
+                <th class="th">Actions</th>
+            </tr>
+        </thead>
+        <tbody class="table-body">
+            {% if object.products.all %}
+            {% for purchase in object.purchase_set.all %}
+            <tr>
+                <td>{{ purchase.product.code }}</td>
+                <td>{{ purchase.product.description }}</td>
+                <td>£{{ purchase.product.cost|floatformat:"-2" }}</td>
+                <td>{{ purchase.quantity }}</td>
+                <td>£{{ purchase.get_total_cost|floatformat:"-2" }}</td>
+                <td>{% if purchase.is_returned %}Yes{% else %}No{% endif %}</td>
+                <td>
+                    <a class="btn {% if purchase.is_returned or not perms.dashboard.change_purchase %}disabled{% endif %}"
+                       href="{% url 'dashboard:return_purchase' purchase.pk %}">
+                        Return
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td colspan="8" class="text-center">No products</td>
+            </tr>
+            {% endif %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th class="th search">Code</th>
+                <th class="th search">Description</th>
+                <th class="th search">Unit Cost</th>
+                <th class="th search">Quantity</th>
+                <th class="th search">Total Cost</th>
+                <th class="th search">Returned</th>
+                <th class="th text-center align-middle">Actions</th>
+            </tr>
+        </tfoot>
+    </table>
+
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script src="{% static "dashboard/js/datatables.min.js" %}"></script>
+<script src="{% static "dashboard/js/table.js" %}"></script>
+{% endblock %}

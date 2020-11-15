@@ -1,0 +1,136 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static "dashboard/css/bootstrap.min.css" %}">
+
+    <!--  Sidemenu CSS -->
+    <link rel="stylesheet" href="{% static "dashboard/css/sidemenu.css" %}">
+    <!-- Dashboard CSS -->
+    <link rel="stylesheet" href="{% static "dashboard/css/maincontent.css" %}">
+    <!-- Table CSS -->
+    <link rel="stylesheet" href="{% static "dashboard/css/tables.css" %}">
+
+    {% block css %}{% endblock %}
+
+    <title>{% block title %}NTU Stores{% endblock %}</title>
+</head>
+<body>
+    <!-- Page Wrapper -->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- SideBar -->
+            <div class="col-2">
+                <div class="sidebar-sticky">
+                    <p>
+                        <a class="btn" href="{% url 'dashboard:password_change' %}" id="account-management">
+                            <i class="fas fa-cog"></i>
+                        </a>
+                    </p>
+
+                    <!-- User Information - Image/Name/Role -->
+                    <div class="user-info text-center">
+                        <!-- <svg class="bd-placeholder-img rounded-circle" width="80" height="80">
+                            <title>bd-placeholder-img</title>
+                            <rect width="100%" height="100%"></rect>
+                        </svg> -->
+                        <img src="{% static "dashboard/img/logo.png" %}" class="logo" width="80" height="90">
+
+
+                        <div class="user-info-item mt-3">
+                            <p class="user-name">{{ user.get_full_name|default:user.get_username }}</p>
+                            <p class="user-role">{{ user.groups.all.0 }}</p>
+                        </div>
+                    </div>
+
+
+                    <!-- Navigation -->
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.view_name in 'dashboard:index' %}active{% endif %}"
+                               href="{% url 'dashboard:index' %}">
+                                <i class="fas fa-home pr-3"></i>Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.view_name in 'dashboard:inventory dashboard:add_product dashboard:edit_product' %}active{% endif %}"
+                               href="{% url 'dashboard:inventory' %}">
+                                <i class="fas fa-chart-line pr-3"></i>
+                                Inventory
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.view_name in 'dashboard:users dashboard:add_user dashboard:edit_user dashboard:groups dashboard:add_group dashboard:edit_group dashboard:password_change' %}active{% endif %}" data-toggle="collapse" href="#submenu1" role="button" data-target="#submenu1" aria-expanded="false">
+                                <i class="fas fa-user pr-3"></i>
+                                Accounts
+                            </a>
+                            <div class="collapse" id="submenu1" aria-expanded="false">
+                                <ul class="flex-column pl-2 nav">
+                                    <li><a class="dropdown-item" href="{% url 'dashboard:users' %}">Users</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'dashboard:groups' %}">Groups</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.view_name in 'dashboard:transactions dashboard:show_transaction dashboard:edit_purchase' %}active{% endif %}"
+                               href="{% url 'dashboard:transactions' %}">
+                                <i class="far fa-credit-card pr-3"></i>
+                                Transactions
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.view_name in 'dashboard:orders dashboard:edit_order dashboard:delete_order dashboard:add_order' %}active{% endif %}"
+                               href="{% url 'dashboard:orders' %}">
+                               <i class="fa fa-shopping-basket pr-3" aria-hidden="true"></i>
+                                    Orders
+                            </a>
+                        </li>
+                    </ul>
+
+                    <!-- User Logout -->
+                    <ul class="nav flex-column mb-2">
+                        <li class="nav-logout-item">
+                            <a class="nav-link" href="{% url 'dashboard:logout' %}">
+                                <i class="fas fa-sign-out-alt pr-3"></i>
+                                Logout
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Main -->
+            <main role="main" class="col-10" id="main">
+                {% block main %}
+                {% endblock %}
+            </main>
+
+            <!-- Footer -->
+            <div class="col-10">
+                <div class="footer">
+                    © Nottingham Trent University | Stores Admin Dashboard
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="{% static "dashboard/js/jquery-3.4.1.slim.min.js" %}"></script>
+    <script src="{% static "dashboard/js/popper.min.js" %}"></script>
+    <script src="{% static "dashboard/js/bootstrap.min.js" %}"></script>
+
+    <!-- Font Awesome 5 -->
+    <script src="{% static "dashboard/js/fontawesome.js" %}"></script>
+
+    {% block js %}{% endblock %}
+
+  </body>
+</html>

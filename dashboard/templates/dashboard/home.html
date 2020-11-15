@@ -1,0 +1,60 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static "dashboard/css/bootstrap.min.css" %}">
+    <!-- Login CSS -->
+    <link rel="stylesheet" href="{% static "dashboard/css/login.css" %}">
+
+    <title>NTU Stores - Login</title>
+</head>
+<body>
+
+    <div class="wrapper">
+        <div class="container login-container">
+            <div class="row">
+                <!-- Left Section -->
+                <div class="col-md-6 image-section">
+                    <div class="image">
+                        <img src="{% static "dashboard/img/LoginImg.png" %}" alt="Nottingham Trent University Login Image">
+                    </div>
+                </div>
+
+                <!-- Right Section -->
+                <div class="col-md-6 login-form">
+                    <h3>NTU Stores System Login</h3>
+                    <div class="line"></div>
+
+                    <form method="post">
+                        <h3>Admin Zone</h3>
+
+                        <p class="text-center">
+                            <a href="{% url 'dashboard:index' %}" class="btnSubmit">Dashboard</a>
+                        </p>
+                        <h3>Customer Zone</h3>
+
+                        <p class="text-center">
+                            <a href="{% url 'checkout:index' %}" class="btnSubmit">Checkout</a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <footer class="dashboard-footer">
+        © Nottingham Trent University
+    </footer>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="{% static "dashboard/js/jquery-3.4.1.slim.min.js" %}"></script>
+    <script src="{% static "dashboard/js/popper.min.js" %}"></script>
+    <script src="{% static "dashboard/js/bootstrap.min.js" %}"></script>
+</body>
+</html>

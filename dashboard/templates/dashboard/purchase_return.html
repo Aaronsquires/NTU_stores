@@ -1,0 +1,41 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static "dashboard/css/datatables.min.css" %}">
+{% endblock %}
+
+{% block title %}NTU Stores - Return Purchase{% endblock %}
+
+{% block main %}
+<!-- Dashboard / Button Toolbar -->
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 pb-2 border-bottom" id="Dashboard-bar">
+    <h3>Return Purchase</h3>
+
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a class="btn"
+           href="{% url 'dashboard:show_transaction' purchase.transaction.pk %}">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Return to Transaction
+        </a>
+    </div>
+</div>
+
+<div class="table-container mb-2">
+    <form method="post">
+        {% csrf_token %}
+        <p class="">
+            Are you sure you want to set
+            "<strong>{{ purchase.product.description }}
+            ({{ purchase.product.code }})</strong>" as returned in transaction
+            #<strong>{{ purchase.transaction.pk }}</strong>?
+        </p>
+        <input type="submit" value="Confirm" class="btn">
+            <a class="btn"
+                href="{% url 'dashboard:show_transaction' purchase.transaction.pk %}">
+                cancel
+            </a>
+    </form>
+</div>
+
+{% endblock %}

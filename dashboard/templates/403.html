@@ -1,0 +1,6 @@
+{% if user.is_authenticated %}
+{{ exception }}
+{% else %}
+Please <a href="{% url 'dashboard:login' %}?next={{ request.path }}">log in</a>
+to access this page.
+{% endif %}

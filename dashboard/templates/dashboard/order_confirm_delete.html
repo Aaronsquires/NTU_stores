@@ -1,0 +1,13 @@
+<form method="post">
+    {% csrf_token %}
+    <p>Are you sure you want to delete the order below?</p>
+    <p><strong>ID:</strong> {{ order.id }}</p>
+    <p><strong>Supplier Name:</strong> {{ order.supplier_name }}</p>
+    <p><strong>Supplier Site Name:</strong> {{ order.supplier_site_name }}</p>
+    <p><strong>Supplier Remit to Address:</strong> {{ order.supplie_remit_to_address }}</p>
+    <p><strong>Promised Date:</strong> {{ order.promised_date }}</p>
+    <p><strong>Goods and Services Total:</strong> {{ order.goods_and_services_total }}</p>
+    <p><strong>VAT:</strong> {{ order.vat }}</p>
+    <p><strong>Invoice Total:</strong> {{ order.invoice_total }}</p>
+    <input type="submit" value="Confirm">
+</form>

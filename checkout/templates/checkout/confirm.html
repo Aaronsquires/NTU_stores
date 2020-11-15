@@ -1,0 +1,53 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static "dashboard/css/bootstrap.min.css" %}">
+    <!-- Login CSS -->
+    <link rel="stylesheet" href="{% static "dashboard/css/login.css" %}">
+    <link rel="stylesheet" href="{% static "checkout/css/customer.css" %}">    
+
+    <title>NTU Stores - Login</title>
+</head>
+<body>
+    <!-- Header -->
+    <header role="header" class="header" id="header">
+        <h3 class="text-center">NTU Storage Ordering Dashboard</h3>
+    </header>
+
+    <main role="main" class="col-12" id="main">
+        <div class="container login-container">
+            <div class="row">
+                <!-- Left Section -->
+                <div class="col-md-6 image-section">
+                    <div class="image">
+                        <img src="{% static "dashboard/img/LoginImg.png" %}" alt="Nottingham Trent University Login Image">
+                    </div>
+                </div>
+
+                <!-- Right Section -->
+                <div class="col-md-6 login-form text-center">
+                    <div class="alert alert-success" role="alert">
+                    <h4>Thank you for your purchase.<br> Click <a href="{% url 'checkout:index' %}">here</a> to get back to the login page.</h4>
+                </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <footer class="dashboard-footer">
+        © Nottingham Trent University
+    </footer>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="{% static "dashboard/js/jquery-3.4.1.slim.min.js" %}"></script>
+    <script src="{% static "dashboard/js/popper.min.js" %}"></script>
+    <script src="{% static "dashboard/js/bootstrap.min.js" %}"></script>
+</body>
+</html>

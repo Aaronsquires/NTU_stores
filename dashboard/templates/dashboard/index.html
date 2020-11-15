@@ -1,0 +1,262 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static "dashboard/css/datatables.min.css" %}">
+<link rel="stylesheet" href="{% static "dashboard/css/dashboard.css" %}">
+{% endblock %}
+
+{% block title %}NTU Stores - Dashboard{% endblock %}
+
+{% block main %}
+
+<!-- Dashboard / Button Toolbar -->
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 pb-2 border-bottom" id="Dashboard-bar">
+    <h4 class="h4">Dashboard</h4>
+</div>
+<div class="dashboard-container">
+    <div class="row">
+        <!-- Chart 1 -->
+        <div class="col-md-6 item-container">
+            <div class="spacing">
+                <div class="mb-3 pb-2 border-bottom">
+                    <h5 class="h5">Daily Revenue</h5>
+                </div>
+                <canvas id="daily-revenue-chart"></canvas>
+            </div>
+        </div>
+        <!-- Chart 2 -->
+        <div class="col-md-6 item-container">
+            <div class="spacing">
+                <div class="mb-3 pb-2 border-bottom">
+                    <h5 class="h5">Best Sellers</h5>
+                </div>
+                <canvas id="best-sellers-chart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <!-- Chart 3 -->
+        <div class="col-md-6 item-container">
+            <div class="spacing">
+                <div class="mb-3 pb-2 border-bottom">
+                    <h5 class="h5">Out Of Stock Products</h5>
+                </div>
+                <table id="out-of-stock-products-table" class="datatable table table-hover" cellspacing="0" width="100%">
+                    <thead class="table-head">
+                        <tr>
+                            <th class="th">Code</th>
+                            <th class="th">Description</th>
+                            <th class="th">Quantity</th>
+                            <th class="th">Threshold</th>
+                            <th class="th">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-body">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Chart 4 -->
+        <div class="col-md-6 item-container">
+            <div class="spacing">
+                <div class="mb-3 pb-2 border-bottom">
+                    <h5 class="h5">Today's Transactions</h5>
+                </div>
+                <table id="today-transactions-table" class="datatable table table-hover" cellspacing="0" width="100%">
+                    <thead class="table-head">
+                        <tr>
+                            <th class="th">#</th>
+                            <th class="th">Account</th>
+                            <th class="th">Buyer ID</th>
+                            <th class="th">Buyer Name</th>
+                            <th class="th">Products</th>
+                            <th class="th">Total Cost</th>
+                            <th class="th">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-body">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script src="{% static "checkout/js/jquery-3.4.1.min.js" %}"></script>
+<script src="{% static "dashboard/js/datatables.min.js" %}"></script>
+<script src="{% static "dashboard/js/chart.bundle.min.js" %}"></script>
+<script>
+ $(document).ready(function() {
+     // Get today's transactions
+     $.ajax({
+         url: "{% url 'dashboard:today_transactions_json' %}",
+     })
+      .done(function (data, textStatus, jqXHR) {
+          if (data.hasOwnProperty('transactions')) {
+              let table = $('#today-transactions-table');
+              let tbody = table.children('tbody');
+              let url_template = "{% url 'dashboard:show_transaction' 666 %}";
+
+              if (data.transactions.length > 0) {
+                  data.transactions.forEach(function (transaction) {
+                      let tr = $('<tr></tr>');
+                      tr.append('<td>' + transaction.pk + '</td>');
+                      tr.append('<td>' + transaction.account + '</td>');
+                      tr.append('<td>' + transaction.buyer_id + '</td>');
+                      tr.append('<td>' + transaction.buyer_name + '</td>');
+                      tr.append('<td>' + transaction.products_count + '</td>');
+                      tr.append('<td>£' + transaction.total_cost + '</td>');
+                      tr.append('<td><a class="btn {% if not perms.dashboard.view_transaction %}disabled{% endif %}" href="' + url_template.replace("666", transaction.pk) + '"><i class="fas fa-eye"></i></a></td>');
+                      tbody.append(tr);
+                  });
+              } else {
+                  let tr = $('<tr></tr>');
+                  tr.append('<td colspan="7">No transactions</td>');
+                  tbody.append(tr);
+              }
+              table.DataTable();
+          }
+      })
+      .fail(function (jqXHR, textStatus, errorThrown) {
+          console.log(jqXHR.responseText);
+      });
+
+     // Get out of stock products
+     $.ajax({
+         url: "{% url 'dashboard:out_of_stock_products_json' %}",
+     })
+      .done(function (data, textStatus, jqXHR) {
+          if (data.hasOwnProperty('products')) {
+              let table = $('#out-of-stock-products-table');
+              let tbody = table.children('tbody');
+              let url_template = "{% url 'dashboard:edit_product' 666 %}";
+
+              if (data.products.length > 0) {
+                  data.products.forEach(function (product) {
+                      let tr = $('<tr></tr>');
+                      tr.append('<td>' + product.code + '</td>');
+                      tr.append('<td>' + product.description + '</td>');
+                      tr.append('<td>' + product.quantity + '</td>');
+                      tr.append('<td>' + product.out_of_stock_threshold + '</td>');
+                      tr.append('<td><a class="btn {% if not perms.dashboard.edit_product %}disabled{% endif %}" href="' + url_template.replace("666", product.pk) + '"><i class="fas fa-edit"></i></a></td>');
+                      tbody.append(tr);
+                  });
+              } else {
+                  let tr = $('<tr></tr>');
+                  tr.append('<td colspan="5">No products</td>');
+                  tbody.append(tr);
+              }
+              table.DataTable();
+          }
+      })
+      .fail(function (jqXHR, textStatus, errorThrown) {
+          console.log(jqXHR.responseText);
+      });
+
+     // Get best selling products
+     $.ajax({
+         url: "{% url 'dashboard:five_best_seller_products_json' %}",
+     })
+      .done(function (data, textStatus, jqXHR) {
+          if (data.hasOwnProperty('products')) {
+              let labels = [];
+              let chartData = [];
+
+              data.products.forEach(function (product) {
+                  labels.push(product.code);
+                  chartData.push(product.purchases_count);
+              });
+
+              let chartCtx = $('#best-sellers-chart');
+              let chart = new Chart(chartCtx, {
+                  type: 'bar',
+                  data: {
+                      labels: labels,
+                      datasets: [{
+                          label: 'Units Sold',
+                          data: chartData,
+                          backgroundColor: [
+                              'rgba(255, 99, 132, 0.2)',
+                              'rgba(54, 162, 235, 0.2)',
+                              'rgba(255, 206, 86, 0.2)',
+                              'rgba(75, 192, 192, 0.2)',
+                              'rgba(153, 102, 255, 0.2)',
+                          ],
+                          borderColor: [
+                              'rgba(255, 99, 132, 1)',
+                              'rgba(54, 162, 235, 1)',
+                              'rgba(255, 206, 86, 1)',
+                              'rgba(75, 192, 192, 1)',
+                              'rgba(153, 102, 255, 1)',
+                          ],
+                          borderWidth: 1
+                      }]
+                  },
+                  options: {
+                      scales: {
+                          yAxes: [{
+                              ticks: {
+                                  beginAtZero: true
+                              }
+                          }]
+                      }
+                  }
+              });
+          }
+      })
+      .fail(function (jqXHR, textStatus, errorThrown) {
+          console.log(jqXHR.responseText);
+      });
+
+
+     // Get week's daily revenu
+     $.ajax({
+         url: "{% url 'dashboard:daily_revenue_json' %}",
+     })
+      .done(function (data, textStatus, jqXHR) {
+          if (data.hasOwnProperty('days')) {
+              let labels = [];
+              let chartData = [];
+
+              data.days.forEach(function (day) {
+                  labels.push(new Date(day.date));
+                  chartData.push(day.revenue);
+              });
+
+              let chartCtx = $('#daily-revenue-chart');
+              let chart = new Chart(chartCtx, {
+                  type: 'line',
+                  data: {
+                      labels: labels,
+                      datasets: [{
+                          label: 'Revenue in £',
+                          data: chartData,
+                          borderColor: 'rgba(54, 162, 235, 1)',
+                          lineTension: 0,
+                          fill: false,
+                      }]
+                  },
+                  options: {
+                      scales: {
+                          xAxes: [{
+                              type: 'time',
+                              time: {
+                                  unit: 'day'
+                              }
+                          }]
+                      }
+                  }
+              });
+          }
+      })
+      .fail(function (jqXHR, textStatus, errorThrown) {
+          console.log(jqXHR.responseText);
+      });
+ });
+
+</script>
+{% endblock %}

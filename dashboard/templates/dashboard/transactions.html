@@ -1,0 +1,100 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static "dashboard/css/datatables.min.css" %}">
+{% endblock %}
+
+{% block title %}NTU Stores - Transactions{% endblock %}
+
+{% block main %}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 pb-2 border-bottom" id="Dashboard-bar">
+    <h3>Transactions{% if filter_date %} ({{ filter_date|title }}){% endif %}</h3>
+
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a href="{% url 'dashboard:export_transactions' %}" class="btn btn-md mr-2 ml-2" id="btn-print">
+            <i class="fa fa-file-csv mr-2" aria-hidden="true"></i>
+            Export CSV
+        </a>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-calendar mr-2" aria-hidden="true"></i>
+                Filter
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" href="{% url 'dashboard:transactions' %}?filter_date=day">Today</a>
+                <a class="dropdown-item" href="{% url 'dashboard:transactions' %}?filter_date=week">This Week</a>
+                <a class="dropdown-item" href="{% url 'dashboard:transactions' %}?filter_date=month">This Month</a>
+                <a class="dropdown-item" href="{% url 'dashboard:transactions' %}?filter_date=three_months">Past 3 Months</a>
+                <a class="dropdown-item" href="{% url 'dashboard:transactions' %}?filter_date=six_months">Past 6 Months</a>
+                <a class="dropdown-item" href="{% url 'dashboard:transactions' %}?filter_date=year">This Year</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="table-container mb-2">
+    <table class="datatable table table-hover" cellspacing="0" width="100%">
+        <thead class="table-head">
+            <tr>
+                <th class="th">#</th>
+                <th class="th">Account</th>
+                <th class="th">Buyer ID</th>
+                <th class="th">Buyer Name</th>
+                <th class="th">Products</th>
+                <th class="th">Total Cost</th>
+                <th class="th">Created</th>
+                <th class="th">Modified</th>
+                <th class="th">Actions</th>
+            </tr>
+        </thead>
+        <tbody class="table-body">
+            {% if transaction_list %}
+            {% for transaction in transaction_list %}
+            <tr>
+                <td>{{ transaction.pk }}</td>
+                <td>{{ transaction.account }}</td>
+                <td>{{ transaction.buyer_id }}</td>
+                <td>{{ transaction.buyer_name }}</td>
+                <td>{{ transaction.get_products_count }}</td>
+                <td>£{{ transaction.get_total_cost|floatformat:"-2" }}</td>
+                <td>{{ transaction.created|date:'SHORT_DATETIME_FORMAT' }}</td>
+                <td>{{ transaction.modified|date:'SHORT_DATETIME_FORMAT' }}</td>
+
+                <td>
+                    <a class="btn {% if not perms.dashboard.view_transaction %}disabled{% endif %}"
+                       href="{% url 'dashboard:show_transaction' transaction.pk %}">
+                        <i class="fas fa-eye"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td colspan="9" class="text-center">No transactions</td>
+            </tr>
+            {% endif %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th class="th search">#</th>
+                <th class="th search">Account</th>
+                <th class="th search">Buyer ID</th>
+                <th class="th search">Buyer Name</th>
+                <th class="th search">Products</th>
+                <th class="th search">Total Cost</th>
+                <th class="th search">Created</th>
+                <th class="th search">Modified</th>
+                <th class="th text-center align-middle">Actions</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script src="{% static "dashboard/js/datatables.min.js" %}"></script>
+<script src="{% static "dashboard/js/table.js" %}"></script>
+{% endblock %}

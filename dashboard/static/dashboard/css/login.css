@@ -1,0 +1,96 @@
+html, body{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.wrapper{
+    min-height: 100%;
+    margin-bottom: -7.5%;
+}
+
+.login-container{
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.image-section{
+    padding: 5%;
+    background: white;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+}
+
+.login-form{
+    padding: 5%;
+    padding-top: 10%;
+    background: white;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+}
+
+.login-form h3{
+    text-align: center;
+    color: #051928;
+}
+.line {
+    padding-top: 5%;
+    border-bottom: 1px solid #f8f8f8;
+}
+
+.login-container form{
+    padding: 10%;
+}
+
+.login-form input{
+    width: 100%;
+    height: 50px;
+    border-radius: 0.5rem;
+    background-color: #f5f5f5;
+}
+
+.btnSubmit
+{
+    margin-top: 10%;
+    width: 50%;
+    border-radius: 0.5rem;
+    padding: 1.5%;
+    border: none;
+    cursor: pointer;
+}
+
+.login-form .btnSubmit{
+    font-weight: 600;
+    color: white;
+    background-color: #E6005B;
+    height: 50px;
+    width: 100%;
+}
+
+.login-form .ForgetPwd{
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+    align-items: flex-end;
+}
+
+.dashboard-footer{
+    background-color: #1A4875;
+    height: 50px;
+    line-height: 50px;
+    width: 100%;
+    color: white;
+    padding-left: 25px;
+    font-size: small;
+    position: absolute;
+}
+
+.btnSubmit {
+    font-weight: 600;
+    color: white;
+    background-color: #E6005B;
+    height: 50px;
+    width: 10vw;
+    padding:10px;
+
+
+}
+

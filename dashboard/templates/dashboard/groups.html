@@ -1,0 +1,66 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static "dashboard/css/datatables.min.css" %}">
+{% endblock %}
+
+{% block title %}NTU Stores - Groups{% endblock %}
+
+{% block main %}
+
+<!-- Dashboard / Button Toolbar -->
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 pb-2 border-bottom" id="Dashboard-bar">
+    <h3>Groups</h3>
+
+    <div class="btn-toolbar mb-2 mb-md-0">
+        {% if perms.auth.add_group %}
+        <a class="btn" href="{% url 'dashboard:add_group' %}">
+            <i class="fas fa-plus-circle mr-2"></i>
+            Add Group
+        </a>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Table -->
+<div class="table-container mb-2">
+    <table class="datatable table table-hover" cellspacing="0" width="100%">
+        <thead class="table-head">
+            <tr>
+                <th class="th">Name</th>
+                <th class="th">Actions</th>
+            </tr>
+        </thead>
+        <tbody class="table-body">
+            {% if group_list %}
+            {% for group in group_list %}
+            <tr>
+                <td>{{ group.name }}</td>
+                <td>
+                    <a class="btn action-btn {% if not perms.auth.change_group %}disabled{% endif %}"
+                       href="{% url 'dashboard:edit_group' group.pk %}">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td colspan="2" class="text-center">No groups</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script src="{% static "dashboard/js/datatables.min.js" %}"></script>
+<script>
+ $(document).ready(function () {
+     $('.datatable').DataTable();
+ });
+</script>
+{% endblock %}

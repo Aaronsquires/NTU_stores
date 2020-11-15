@@ -1,0 +1,107 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static "dashboard/css/datatables.min.css" %}">
+{% endblock %}
+
+{% block title %}NTU Stores - Inventory{% endblock %}
+
+{% block main %}
+
+<!-- Dashboard / Button Toolbar -->
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 pb-2 border-bottom" id="Dashboard-bar">
+    <h3>Products{% if filter_date %} ({{ filter_date|title }}){% endif %}</h3>
+
+    <div class="btn-toolbar mb-2 mb-md-0">
+        {% if perms.dashboard.add_product %}
+        <a class="btn" href="{% url 'dashboard:add_product' %}">
+            <i class="fas fa-plus-circle mr-2"></i>
+            Add Product
+        </a>
+        {% endif %}
+        <a href="{% url 'dashboard:export_products' %}" class="btn btn-md mr-2 ml-2" id="btn-print">
+            <i class="fa fa-file-csv mr-2" aria-hidden="true"></i>
+            Export CSV
+        </a>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-calendar mr-2" aria-hidden="true"></i>
+                Filter
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" href="{% url 'dashboard:inventory' %}?filter_date=day">Today</a>
+                <a class="dropdown-item" href="{% url 'dashboard:inventory' %}?filter_date=week">This Week</a>
+                <a class="dropdown-item" href="{% url 'dashboard:inventory' %}?filter_date=month">This Month</a>
+                <a class="dropdown-item" href="{% url 'dashboard:inventory' %}?filter_date=three_months">Past 3 Months</a>
+                <a class="dropdown-item" href="{% url 'dashboard:inventory' %}?filter_date=six_months">Past 6 Months</a>
+                <a class="dropdown-item" href="{% url 'dashboard:inventory' %}?filter_date=year">This Year</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Table -->
+<div class="table-container mb-2">
+    <table class="datatable table table-hover" cellspacing="0" width="100%">
+        <thead class="table-head">
+            <tr>
+                <th class="th">Code</th>
+                <th class="th">Description</th>
+                <th class="th">Quantity</th>
+                <th class="th">Out Of Stock</th>
+                <th class="th">Cost</th>
+                <th class="th">Status</th>
+                <th class="th">Created</th>
+                <th class="th">Modified</th>
+                <th class="th">Actions</th>
+            </tr>
+        </thead>
+        <tbody class="table-body">
+            {% if product_list %}
+            {% for product in product_list %}
+            <tr>
+                <td>{{ product.code }}</td>
+                <td>{{ product.description }}</td>
+                <td>{{ product.quantity }}</td>
+                <td>{% if product.is_out_of_stock %}Yes{% else %}No{% endif %}</td>
+                <td>£{{ product.cost|floatformat:"-2" }}</td>
+                <td>{% if product.is_disabled %}Disabled{% else %}Enabled{% endif %}</td>
+                <td>{{ product.created|date:'SHORT_DATETIME_FORMAT' }}</td>
+                <td>{{ product.modified|date:'SHORT_DATETIME_FORMAT' }}</td>
+                <td>
+                    <a class="btn action-btn {% if not perms.dashboard.change_product %}disabled{% endif %}"
+                       href="{% url 'dashboard:edit_product' product.pk %}">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td colspan="9" class="text-center">No products</td>
+            </tr>
+            {% endif %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th class="th search">Code</th>
+                <th class="th search">Description</th>
+                <th class="th search">Quantity</th>
+                <th class="th search">Out Of Stock</th>
+                <th class="th search">Cost</th>
+                <th class="th search">Status</th>
+                <th class="th search">Created</th>
+                <th class="th search">Modified</th>
+                <th class="th text-center align-middle">Actions</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script src="{% static "dashboard/js/datatables.min.js" %}"></script>
+<script src="{% static "dashboard/js/table.js" %}"></script>
+{% endblock %}

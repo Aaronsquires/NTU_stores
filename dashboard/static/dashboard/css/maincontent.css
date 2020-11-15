@@ -1,0 +1,119 @@
+*{
+    margin: 0;
+}
+
+/* .row {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+} */
+
+.col-10{
+    background-color: #EFEFEF;
+    width: 100%;
+    margin-left: auto!;
+    padding: 0;
+}
+
+#main{
+    padding: 1.5vh;
+    padding-bottom: 65px;
+}
+
+.table-container{
+    padding: 1.5%;
+    background-color: white;
+    border-radius: 2vh;
+}
+
+.table-head {
+    border-bottom: 3px solid #B4B4B4;;
+}
+
+.table-hover tbody tr:hover td {
+    background: #1a4875;
+    color: white;
+}
+
+/* Button Toolbar */
+
+.btn-toolbar .btn {
+    border-color: #051928;
+    color: #1a4875;
+}
+
+/* Button Toolbar */
+#table-search {
+    height: 3.5vh;
+    background-color: white;
+    font-size: 1.5vh;
+    border-radius: 1vh;
+    width: 20vw;
+    padding-left: 0.5vw;
+    border: 1px solid #1a4875;
+}
+
+.btn-toolbar{
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn {
+    background-color: #1a4875;
+    color: white;
+    border: 1px solid #E6005B;
+    font-weight: bold;
+}
+
+.btn:hover{
+    text-decoration: none;
+    color: white;
+}
+
+.action-btn{
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.table-select {
+    height: 5vh;
+    background-color: #1a4875;
+    color: white;
+}
+
+
+.btn-toolbar .btn {
+    color: white;
+}
+
+.btn:hover{
+    background-color: #E6005B;
+}
+
+/* Footer */
+.footer {
+    margin-left: 20%;
+    background-color: #1A4875;
+    height: 50px;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    padding-left: 25px;
+    padding-top: 17px;
+    font-size: small;
+    position: absolute;
+}
+
+#form-buttons{
+    width: 5%;
+}
+
+#account-management{
+    background-color: transparent;
+    border: transparent;
+    color: #1A4875;
+}

@@ -1,0 +1,89 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static "dashboard/css/datatables.min.css" %}">
+{% endblock %}
+
+{% block title %}NTU Stores - Users{% endblock %}
+
+{% block main %}
+
+<!-- Dashboard / Button Toolbar -->
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 pb-2 border-bottom" id="Dashboard-bar">
+    <h3>Users</h3>
+
+    <div class="btn-toolbar mb-2 mb-md-0">
+        {% if perms.auth.add_user %}
+        <a class="btn" href="{% url 'dashboard:add_user' %}">
+            <i class="fas fa-plus-circle mr-2"></i>
+            Add User
+        </a>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Table -->
+<div class="table-container mb-2">
+    <table class="datatable table table-hover" cellspacing="0" width="100%">
+        <thead class="table-head">
+            <tr>
+                <th class="th">Username</th>
+                <th class="th">Email Address</th>
+                <th class="th">First Name</th>
+                <th class="th">Last Name</th>
+                <th class="th">Superuser</th>
+                <th class="th">Active</th>
+                <th class="th">Last Login</th>
+                <th class="th">Date Joined</th>
+                <th class="th">Actions</th>
+            </tr>
+        </thead>
+        <tbody class="table-body">
+            {% if user_list %}
+            {% for user in user_list %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.first_name }}</td>
+                <td>{{ user.last_name }}</td>
+                <td>{% if user.is_superuser %}Yes{% else %}No{% endif %}</td>
+                <td>{% if user.is_active %}Yes{% else %}No{% endif %}</td>
+                <td>{{ user.last_login|date:'SHORT_DATETIME_FORMAT' }}</td>
+                <td>{{ user.date_joined|date:'SHORT_DATETIME_FORMAT' }}</td>
+                <td>
+                    <a class="btn action-btn {% if not perms.auth.change_user %}disabled{% endif %}"
+                       href="{% url 'dashboard:edit_user' user.pk %}">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td colspan="9" class="text-center">No users</td>
+            </tr>
+            {% endif %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th class="th search">Username</th>
+                <th class="th search">Email Address</th>
+                <th class="th search">First Name</th>
+                <th class="th search">Last Name</th>
+                <th class="th search">Superuser</th>
+                <th class="th search">Active</th>
+                <th class="th search">Last Login</th>
+                <th class="th search">Date Joined</th>
+                <th class="th text-center align-middle">Actions</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script src="{% static "dashboard/js/datatables.min.js" %}"></script>
+<script src="{% static "dashboard/js/table.js" %}"></script>
+{% endblock %}

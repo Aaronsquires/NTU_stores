@@ -1,0 +1,91 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+
+{% block css %}
+<!-- Inventory CSS -->
+<link rel="stylesheet" href="{% static "dashboard/css/inventory.css" %}">
+<link rel="stylesheet" href="{% static "dashboard/css/datatables.min.css" %}">
+{% endblock %}
+
+{% block title %}
+NTU Stores -
+{% if request.resolver_match.view_name == 'dashboard:add_product' %}Add
+{% else %}Edit{% endif %} Product
+{% endblock %}
+
+{% block main %}
+<!-- Dashboard / Button Toolbar -->
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 pb-2 border-bottom" id="Dashboard-bar">
+    <h3>
+        {% if request.resolver_match.view_name == 'dashboard:add_product' %}Add
+        {% else %}Edit{% endif %} Product
+    </h3>
+
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a class="btn" href="{% url 'dashboard:inventory' %}">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Return to Products
+        </a>
+    </div>
+</div>
+
+<div class="table-container mb-2">
+    <div class="add-product-form">
+        <form method="post">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ form.non_field_errors }}
+            </div>
+            {% endif %}
+
+            {% for field in form %}
+            {% if field != form.is_disabled %}
+            <div class="form-group">
+                {{ field.label_tag }}
+
+                {% if field.errors %}
+                <div class="invalid-feedback d-block">
+                    {{ field.errors }}
+                </div>
+                {% endif %}
+
+                {{ field }}
+                <small class="form-text text-muted">{{ field.help_text }}</small>
+            </div>
+            {% endif %}
+            {% endfor %}
+
+            {% if form.is_disabled %}
+            <div class="form-group">
+                <label class="form-check-label pr-1" for="{{ form.is_disabled.id_for_label }}">Disable:</label>
+
+                {% if form.is_disabled.errors %}
+                <div class="invalid-feedback d-block">
+                    {{ form.is_disabled.errors }}
+                </div>
+                {% endif %}
+
+                {{ form.is_disabled }}
+                <small class="form-text text-muted">{{ form.is_disabled.help_text }}</small>
+            </div>
+            {% endif %}
+
+            <input class="btn btn-primary" type="submit" value="Save" id="save-button">
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+ $(document).ready(function() {
+     $('input').addClass('form-control');
+     $('input[type=submit]').removeClass('form-control');
+     $('input[type=checkbox]').removeClass('form-control');
+ });
+</script>
+{% endblock %}
+
